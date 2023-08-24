@@ -1,6 +1,15 @@
 {
   "name": "deepl-translator",
   "version": "1.0.0",
+  "description": "A lightweight deepl translator wrapper",
+  "keywords": [
+    "deepl",
+    "translator",
+    "translation",
+    "translate",
+    "wrapper",
+    "api"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "cedriking <cedrik.git@tryninja.io>",
