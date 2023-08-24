@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { DeeplOptions, DeeplResponse } from './faces'
+import { DeeplOptions, DeeplResponse, DeeplResponseTranslation } from './faces'
 
 export class Deepl {
   constructor(private readonly options: DeeplOptions) {
@@ -8,7 +8,13 @@ export class Deepl {
     }
   }
 
-  async translate(text: string, options?: DeeplOptions): Promise<DeeplResponse> {
+  async translate(text: string, options?: DeeplOptions): Promise<DeeplResponseTranslation> {
+    const opts = { ...this.options, ...options }
+
+    return (await this.translateMany([text], opts)).translations[0]
+  }
+
+  async translateMany(texts: string[], options?: DeeplOptions): Promise<DeeplResponse> {
     const opts = { ...this.options, ...options }
 
     if (!opts.apiKey) {
@@ -21,7 +27,7 @@ export class Deepl {
       throw new Error('"from" (source) language is required when using a glossary ID')
     }
 
-    const data = this.formatRequestData(text, opts)
+    const data = this.formatRequestData(texts, opts)
 
     try {
       const response = await axios.post(
@@ -44,9 +50,9 @@ export class Deepl {
     }
   }
 
-  private formatRequestData(text: string, options: DeeplOptions) {
+  private formatRequestData(texts: string[], options: DeeplOptions) {
     const data: any = {
-      text: [text],
+      text: texts,
       target_lang: options.to,
     }
 

@@ -76,8 +76,10 @@ export interface DeeplOptions {
 }
 
 export interface DeeplResponse {
-  translations: {
-    detected_source_language: string
-    text: string
-  }[]
+  translations: DeeplResponseTranslation[]
+}
+
+export interface DeeplResponseTranslation {
+  detected_source_language: string
+  text: string
 }
